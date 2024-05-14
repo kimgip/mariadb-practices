@@ -26,5 +26,5 @@ select max(salary), min(salary) from salaries where to_date = '9999-01-01';
 -- 2024년 기준 제일 어린 사원의 나이와 최연장자의 나이는?
 select min(date_format(now(), '%Y') - date_format(birth_date, '%Y')), max(date_format(now(), '%Y') - date_format(birth_date, '%Y')) from employees;
 
--- 나이 계산이 오류가 나는 이유
-select period_diff(date_format(now(), '%Y'), date_format(birth_date, '%Y')) from employees;
+-- period_diff는 월 계산만 가능! 년 계산 불가능!
+select period_diff(date_format(now(), '%Y%m'), date_format(birth_date, '%Y%m')) from employees;
