@@ -29,11 +29,21 @@ order by salary desc;
 
 -- 문제6.
 -- 평균 연봉이 가장 높은 부서는? 
-select dept_name from dept_emp a join salaries b on a.emp_no=b.emp_no join departments c on a.dept_no=c.dept_no where a.to_date='9999-01-01' and b.to_date='9999-01-01' group by a.dept_no order by avg(salary) desc limit 0, 1;
+-- sol1)
+select dept_name, avg(salary) from dept_emp a join salaries b on a.emp_no=b.emp_no join departments c on a.dept_no=c.dept_no where a.to_date='9999-01-01' and b.to_date='9999-01-01' group by a.dept_no order by avg(salary) desc limit 0, 1;
+
+-- sol2)
+select dept_name, avg(salary) from dept_emp a join salaries b on a.emp_no=b.emp_no join departments c on a.dept_no=c.dept_no where a.to_date='9999-01-01' and b.to_date='9999-01-01' group by a.dept_no
+having avg(salary) = (select max(avg_salary) from (select avg(salary) avg_salary from dept_emp a join salaries b on a.emp_no=b.emp_no join departments c on a.dept_no=c.dept_no where a.to_date='9999-01-01' and b.to_date='9999-01-01' group by a.dept_no) a);
 
 -- 문제7.
 -- 평균 연봉이 가장 높은 직책?
-select title from titles a join salaries b on a.emp_no=b.emp_no where a.to_date='9999-01-01' and b.to_date='9999-01-01' group by a.title order by avg(salary) desc limit 0, 1;
+-- sol1)
+select title, avg(salary) from titles a join salaries b on a.emp_no=b.emp_no where a.to_date='9999-01-01' and b.to_date='9999-01-01' group by a.title order by avg(salary) desc limit 0, 1;
+
+-- sol2)
+select title, round(avg(salary)) from titles a join salaries b on a.emp_no=b.emp_no where a.to_date='9999-01-01' and b.to_date='9999-01-01' group by title
+having round(avg(salary)) = (select max(avg_salary) from (select round(avg(salary)) as avg_salary from titles a join salaries b on a.emp_no=b.emp_no where a.to_date='9999-01-01' and b.to_date='9999-01-01' group by a.title) a);
 
 -- 문제8.
 -- 현재 자신의 매니저보다 높은 연봉을 받고 있는 직원은?
