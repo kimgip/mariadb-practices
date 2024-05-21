@@ -5,7 +5,14 @@ public class CartVo {
 	private int quantity;
 	private Long userNo;
 	private Long bookNo;
+	private String bookTitle;
 	
+	public String getBookTitle() {
+		return bookTitle;
+	}
+	public void setBookTitle(String bookTitle) {
+		this.bookTitle = bookTitle;
+	}
 	public Long getNo() {
 		return no;
 	}
