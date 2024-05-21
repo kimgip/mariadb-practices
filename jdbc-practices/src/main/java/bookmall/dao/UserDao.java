@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bookmall.vo.UserVo;
+import bookshop.vo.BookVo;
 
 public class UserDao {
 	private Connection getConnection() throws SQLException {
@@ -63,6 +64,33 @@ public class UserDao {
 		){
 			pstmt.setLong(1, no);
 			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("error:"+e);
+		}
+		
+		return result;
+	}
+
+	public List<UserVo> findAll() {
+		List<UserVo> result = new ArrayList<>();
+		
+		try (
+				Connection conn = getConnection();
+				PreparedStatement pstmt = conn.prepareStatement("select no, name, phone_number, email, password  from user");
+				ResultSet rs = pstmt.executeQuery();
+		){
+			while(rs.next()) {
+				Long no = rs.getLong(1);
+				String name = rs.getString(2);
+				String phoneNumber = rs.getString(3);
+				String email = rs.getString(4);
+				String password = rs.getString(5);
+				
+				UserVo vo = new UserVo(name, phoneNumber, email, password);
+				vo.setNo(no);
+				
+				result.add(vo);
+			}
 		} catch (SQLException e) {
 			System.out.println("error:"+e);
 		}

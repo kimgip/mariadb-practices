@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bookmall.vo.CartVo;
+import bookmall.vo.UserVo;
 
 public class CartDao {
 	private Connection getConnection() throws SQLException {
@@ -69,5 +70,40 @@ public class CartDao {
 		
 		return result;
 		
+	}
+
+	public List<CartVo> findByUserNo(Long no) {
+		List<CartVo> result = new ArrayList<>();
+		
+		try (
+				Connection conn = getConnection();
+				PreparedStatement pstmt = conn.prepareStatement("select a.quantity, a.user_no, a.book_no, b.title from cart a join book b on a.book_no = b.no where a.user_no = ?");
+				
+		){
+			pstmt.setLong(1, no);
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				int quantity = (int)rs.getLong(1);
+				Long userNo = rs.getLong(2);
+				Long bookNo = rs.getLong(3);
+				String bookTitle = rs.getString(4);
+				
+				CartVo vo = new CartVo();
+				vo.setNo(no);
+				vo.setQuantity(quantity);
+				vo.setUserNo(userNo);
+				vo.setBookNo(bookNo);
+				vo.setBookTitle(bookTitle);
+				
+				result.add(vo);
+			}
+			
+			rs.close();
+		} catch (SQLException e) {
+			System.out.println("error:"+e);
+		}
+		
+		return result;
 	}
 }

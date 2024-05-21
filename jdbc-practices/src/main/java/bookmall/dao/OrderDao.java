@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import bookmall.vo.CartVo;
 import bookmall.vo.OrderBookVo;
 import bookmall.vo.OrderVo;
 
@@ -110,5 +111,70 @@ public class OrderDao {
 		
 		return result;
 		
+	}
+
+	public OrderVo findByNoAndUserNo(Long no, Long userNo) {
+		OrderVo result = null;
+		
+		try (
+				Connection conn = getConnection();
+				PreparedStatement pstmt = conn.prepareStatement("select number, status, payment, shipping from orders where no = ? and user_no = ?");
+				
+		){
+			pstmt.setLong(1, no);
+			pstmt.setLong(2, userNo);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				result = new OrderVo();
+				result.setNo(no);
+				result.setUserNo(userNo);
+				
+				result.setNumber(rs.getString(1));
+				result.setStatus(rs.getString(2));
+				result.setPayment((int)rs.getLong(3));
+				result.setShipping(rs.getString(4));
+			}
+			
+			rs.close();
+		} catch (SQLException e) {
+			System.out.println("error:"+e);
+		}
+		
+		return result;
+	}
+
+	public List<OrderBookVo> findBooksByNoAndUserNo(Long no, Long userNo) {
+		List<OrderBookVo> result = new ArrayList<OrderBookVo>();
+		
+		try (
+				Connection conn = getConnection();
+				PreparedStatement pstmt = conn.prepareStatement("select b.quantity, b.price, c.no, c.title from orders a, orders_book b, book c " 
+							+ "where a.no = b.order_no and b.book_no = c.no and a.no = ? and a.user_no = ?");
+				
+		){
+			pstmt.setLong(1, no);
+			pstmt.setLong(2, userNo);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				OrderBookVo vo = new OrderBookVo();
+				vo.setOrderNo(no);
+				vo.setQuantity((int)rs.getLong(1));
+				vo.setPrice((int)rs.getLong(2));
+				vo.setBookNo(rs.getLong(3));
+				vo.setBookTitle(rs.getString(4));
+				
+				result.add(vo);
+			}
+			
+			rs.close();
+		} catch (SQLException e) {
+			System.out.println("error:"+e);
+		}
+		
+		return result;
 	}
 }

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bookmall.vo.CategoryVo;
+import bookmall.vo.UserVo;
 
 public class CategoryDao {
 	private Connection getConnection() throws SQLException {
@@ -64,6 +65,29 @@ public class CategoryDao {
 			System.out.println("error:"+e);
 		}
 		
+		return result;
+	}
+
+	public List<CategoryVo> findAll() {
+		List<CategoryVo> result = new ArrayList<>();
+		
+		try (
+				Connection conn = getConnection();
+				PreparedStatement pstmt = conn.prepareStatement("select no, name  from category");
+				ResultSet rs = pstmt.executeQuery();
+		){
+			while(rs.next()) {
+				Long no = rs.getLong(1);
+				String name = rs.getString(2);
+				
+				CategoryVo vo = new CategoryVo(name);
+				vo.setNo(no);
+				
+				result.add(vo);
+			}
+		} catch (SQLException e) {
+			System.out.println("error:"+e);
+		}
 		return result;
 	}
 }
