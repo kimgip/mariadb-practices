@@ -1,5 +1,7 @@
 package bookmall.vo;
 
+import java.util.Objects;
+
 public class OrderBookVo {
 	private int quantity;
 	private int price;
@@ -36,5 +38,21 @@ public class OrderBookVo {
 	}
 	public void setBookTitle(String bookTitle) {
 		this.bookTitle = bookTitle;
+	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(bookNo, orderNo, price, quantity);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		OrderBookVo other = (OrderBookVo) obj;
+		return Objects.equals(bookNo, other.bookNo) && Objects.equals(orderNo, other.orderNo) && price == other.price
+				&& quantity == other.quantity;
 	}
 }

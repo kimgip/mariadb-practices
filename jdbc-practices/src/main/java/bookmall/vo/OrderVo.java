@@ -1,5 +1,7 @@
 package bookmall.vo;
 
+import java.util.Objects;
+
 public class OrderVo {
 	private Long no;
 	private String number;
@@ -43,5 +45,21 @@ public class OrderVo {
 	public void setUserNo(Long userNo) {
 		this.userNo = userNo;
 	}
-		
+	@Override
+	public int hashCode() {
+		return Objects.hash(number, payment, shipping, status);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		OrderVo other = (OrderVo) obj;
+		return Objects.equals(number, other.number) && payment == other.payment
+				&& Objects.equals(shipping, other.shipping) && Objects.equals(status, other.status);
+	}
+	
 }

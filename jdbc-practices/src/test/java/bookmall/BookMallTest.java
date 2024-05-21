@@ -128,6 +128,7 @@ public class BookMallTest {
 		assertEquals(mockBookVo01.getNo(), list.get(0).getBookNo());
 		assertEquals(mockBookVo01.getTitle(), list.get(0).getBookTitle());
 		assertEquals(mockCartVo01.getQuantity(), list.get(0).getQuantity());
+		
 
 		assertEquals(mockBookVo02.getNo(), list.get(1).getBookNo());
 		assertEquals(mockBookVo02.getTitle(), list.get(1).getBookTitle());		
@@ -143,10 +144,11 @@ public class BookMallTest {
 
 		vo = orderDao.findByNoAndUserNo(mockOrderVo.getNo(), mockUserVo01.getNo());
 		assertNotNull(vo);
-		assertEquals(mockOrderVo.getNumber(), vo.getNumber());		// 나중에 시간나면 equals 오버라이드도 해보자.
-		assertEquals(mockOrderVo.getPayment(), vo.getPayment());		
-		assertEquals(mockOrderVo.getStatus(), vo.getStatus());		
-		assertEquals(mockOrderVo.getShipping(), vo.getShipping());		
+//		assertEquals(mockOrderVo.getNumber(), vo.getNumber());		// 나중에 시간나면 equals 오버라이드도 해보자.
+//		assertEquals(mockOrderVo.getPayment(), vo.getPayment());		
+//		assertEquals(mockOrderVo.getStatus(), vo.getStatus());		
+//		assertEquals(mockOrderVo.getShipping(), vo.getShipping());	
+		assertEquals(mockOrderVo, vo);
 	}
 
 	@Test
@@ -155,17 +157,19 @@ public class BookMallTest {
 		
 		assertEquals(2, list.size());
 		
-		assertEquals(mockOrderBookVo01.getOrderNo(), list.get(0).getOrderNo());
-		assertEquals(mockOrderBookVo01.getQuantity(), list.get(0).getQuantity());
-		assertEquals(mockOrderBookVo01.getPrice(), list.get(0).getPrice());
-		assertEquals(mockOrderBookVo01.getBookNo(), list.get(0).getBookNo());
+//		assertEquals(mockOrderBookVo01.getOrderNo(), list.get(0).getOrderNo());
+//		assertEquals(mockOrderBookVo01.getQuantity(), list.get(0).getQuantity());
+//		assertEquals(mockOrderBookVo01.getPrice(), list.get(0).getPrice());
+//		assertEquals(mockOrderBookVo01.getBookNo(), list.get(0).getBookNo());
 		assertEquals(mockBookVo01.getTitle(), list.get(0).getBookTitle());
+		assertEquals(mockOrderBookVo01, list.get(0));
 
-		assertEquals(mockOrderBookVo02.getOrderNo(), list.get(1).getOrderNo());
-		assertEquals(mockOrderBookVo02.getQuantity(), list.get(1).getQuantity());
-		assertEquals(mockOrderBookVo02.getPrice(), list.get(1).getPrice());
-		assertEquals(mockOrderBookVo02.getBookNo(), list.get(1).getBookNo());
+//		assertEquals(mockOrderBookVo02.getOrderNo(), list.get(1).getOrderNo());
+//		assertEquals(mockOrderBookVo02.getQuantity(), list.get(1).getQuantity());
+//		assertEquals(mockOrderBookVo02.getPrice(), list.get(1).getPrice());
+//		assertEquals(mockOrderBookVo02.getBookNo(), list.get(1).getBookNo());
 		assertEquals(mockBookVo02.getTitle(), list.get(1).getBookTitle());		
+		assertEquals(mockOrderBookVo02, list.get(1));
 	}
 	
 	@AfterAll
