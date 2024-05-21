@@ -114,5 +114,17 @@ public class BookDao {
 		
 		return result;
 	}
+
+	public void deleteAll() {
+		try (
+				Connection conn = getConnection();
+				PreparedStatement pstmt = conn.prepareStatement("delete from book");
+				
+		){
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("error:"+e);
+		}
+	}
 	
 }

@@ -10,8 +10,8 @@ public class BookVo {
 	
 	@Override
 	public String toString() {
-		return "BookVo [no=" + no + ", title=" + title + ", status=" + status + ", AuthorNo=" + AuthorNo
-				+ ", authorName=" + authorName + "]";
+		return "[" + no + "] 제목: " + title + ", 대여유무: " + status
+				+ ", 작가: " + authorName;
 	}
 	public String getAuthorName() {
 		return authorName;

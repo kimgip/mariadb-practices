@@ -97,4 +97,17 @@ public class AuthorDao {
 		return result;
 	}
 
+	public void deleteAll() {
+		try (	
+				Connection conn = getConnection();
+				PreparedStatement pstmt = conn.prepareStatement("delete from author");
+				
+		){
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			System.out.println("error:"+e);
+		}
+	}
+
 }
